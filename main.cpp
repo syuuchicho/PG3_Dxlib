@@ -1,5 +1,9 @@
+#include<iostream>
 #include "DxLib.h"
-#include"SceneManager.h"
+#include"Enemy.h"
+
+using namespace std;
+
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "xx2x_xx_ナマエ: タイトル";
 
@@ -9,13 +13,8 @@ const int WIN_WIDTH = 600;
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 400;
 
-enum Scene
-{
-	Title,
-	NewGame,
-	GamePlay,
-	GameClear
-};
+//敵の数
+int Enemy::enemyCount;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow) {
@@ -49,11 +48,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// ゲームループで使う変数の宣言
 
-	//インスタンス取得
-	SceneManager* sceneManager = SceneManager::GetInstance();
+	//敵のインスタンス生成
+	Enemy* enemy1 = new Enemy;
+	Enemy* enemy2 = new Enemy;
+	Enemy* enemy3 = new Enemy;
 
-	int sceneNo = 0;
 	
+
 	// 最新のキーボード情報用
 	char keys[256] = { 0 };
 
@@ -77,26 +78,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		// 更新処理
 		if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0)
 		{
-			sceneManager->SceneChange(sceneNo);
+			delete enemy3;
 		}
 
 		// 描画処理
-		switch (sceneNo)
+		for (int i = 1; i < Enemy::enemyCount+1; i++)
 		{
-		case Title:
-			SetBackgroundColor(0x00, 0x00, 0x00);
-			break;
-		case NewGame:
-			SetBackgroundColor(0x00, 0x00, 0xFF);
-			break;
-		case GamePlay:
-			SetBackgroundColor(0x00, 0xFF, 0x00);
-			break;
-		default:
-			SetBackgroundColor(0x00, 0xFF, 0xFF);
-			break;
+			DrawBox(40*i, 40*i, 30 * i, 30 * i, GetColor(255, 0, 0), true);
 		}
-		DrawFormatString(20, 40, GetColor(255, 255, 255), "sceneNo:%d", sceneNo);
+
+		DrawFormatString(300, 200, GetColor(255, 255, 255), "spaceでenemy3を削除");
+
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
 		ScreenFlip();
