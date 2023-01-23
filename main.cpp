@@ -1,5 +1,4 @@
 #include<iostream>
-#include "DxLib.h"
 #include"Enemy.h"
 
 using namespace std;
@@ -13,8 +12,6 @@ const int WIN_WIDTH = 600;
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 400;
 
-//敵の数
-int Enemy::enemyCount;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow) {
@@ -48,10 +45,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// ゲームループで使う変数の宣言
 
+	
+
 	//敵のインスタンス生成
-	Enemy* enemy1 = new Enemy;
-	Enemy* enemy2 = new Enemy;
-	Enemy* enemy3 = new Enemy;
+	Enemy* enemy = new Enemy;
+	
 
 	
 
@@ -76,19 +74,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
-		if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0)
-		{
-			delete enemy3;
-		}
+		enemy->Update();
 
 		// 描画処理
-		for (int i = 1; i < Enemy::enemyCount+1; i++)
-		{
-			DrawBox(40*i, 40*i, 30 * i, 30 * i, GetColor(255, 0, 0), true);
-		}
-
-		DrawFormatString(300, 200, GetColor(255, 255, 255), "spaceでenemy3を削除");
-
+		enemy->Draw();
+		
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
 		ScreenFlip();
