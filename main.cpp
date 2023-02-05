@@ -1,9 +1,5 @@
 #include<iostream>
-#include "DxLib.h"
 #include"Enemy.h"
-
-using namespace std;
-
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "xx2x_xx_ナマエ: タイトル";
 
@@ -13,8 +9,6 @@ const int WIN_WIDTH = 600;
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 400;
 
-//敵の数
-int Enemy::enemyCount;
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow) {
@@ -53,7 +47,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Enemy* enemy2 = new Enemy;
 	Enemy* enemy3 = new Enemy;
 
-	
+	//enemyBoss->GetEnemy(enemy1, enemy2, enemy3);
+
 
 	// 最新のキーボード情報用
 	char keys[256] = { 0 };
@@ -76,16 +71,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
+		enemy1->Update();
+		enemy2->Update();
+		enemy3->Update();
 		if (keys[KEY_INPUT_SPACE] == 1 && oldkeys[KEY_INPUT_SPACE] == 0)
 		{
-			delete enemy3;
+			enemy3->SetDeath();
+
 		}
 
 		// 描画処理
-		for (int i = 1; i < Enemy::enemyCount+1; i++)
-		{
-			DrawBox(40*i, 40*i, 30 * i, 30 * i, GetColor(255, 0, 0), true);
-		}
+		enemy1->Draw(40, 30, 1);
+		enemy2->Draw(40, 30, 2);
+		enemy3->Draw(40, 30, 3);
 
 		DrawFormatString(300, 200, GetColor(255, 255, 255), "spaceでenemy3を削除");
 
@@ -106,6 +104,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 		}
 	}
+	delete enemy1;
+	delete enemy2;
+	delete enemy3;
+
 	// Dxライブラリ終了処理
 	DxLib_End();
 
